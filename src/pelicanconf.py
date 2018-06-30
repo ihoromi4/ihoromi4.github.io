@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = 'Ihor Omi4'
-SITENAME = 'Ihor Omi4 Blog'
+AUTHOR = 'ihoromi4'
+SITENAME = 'ihoromi4 Blog'
 SITEURL = ''
+THEME = 'pelican-chunk'
 
 PATH = 'content'
 
