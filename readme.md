@@ -21,7 +21,7 @@
 
   ```bash
   cd src
-  pelican content
+  pelican -r content
   ```
 
   ## Test Deploy
@@ -31,4 +31,12 @@
   python -m pelican.server
   ```
 
-  [Open in browser localhost:8000](http://localhost:8000)
+  Open in browser [localhost:8000](http://localhost:8000)
+  
+  ## Publish Deploy
+  
+  ```bash
+  pelican -s publishconf.py content
+  ```
+  
+  Commit changes and push.
