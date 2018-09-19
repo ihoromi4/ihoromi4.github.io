@@ -2,10 +2,18 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+OUTPUT_PATH = '../'
+
 AUTHOR = 'ihoromi4'
 SITENAME = 'ihoromi4 Blog'
-SITEURL = ''
-THEME = 'pelican-chunk'
+SITEDESCRIPTION = 'Description'
+SITEURL = ''  # 'https://ihoromi4.github.com'
+SITETITLE = 'ihoromi4'
+SITESUBTITLE = 'Python | Go | C++ | ML Developer'
+THEME = './themes/Flex'
+
+PLUGIN_PATHS = ['./extentions']
+PLUGINS = ['pelican_javascript']
 
 PATH = 'content'
 
@@ -21,14 +29,13 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+LINKS = (('About', 'https://ihoromi4.github.com/about.html'),)
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+SOCIAL = (('github', 'https://github.com/ihoromi4'),
+          ('linkedin', 'https://www.linkedin.com/in/ihor-omelchenko-38839b12a'),
+          ('facebook', 'https://www.facebook.com/profile.php?id=100004291211446'),
+          ('telegram', 'https://t.me/ihoromi4'),)
 
 DEFAULT_PAGINATION = 10
 
