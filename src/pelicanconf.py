@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-OUTPUT_PATH = '../'
+OUTPUT_PATH = '../docs/'
 
 AUTHOR = 'Ihor Omelchenko'
 SITENAME = f'{AUTHOR} Blog'
