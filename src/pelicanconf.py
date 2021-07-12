@@ -4,18 +4,26 @@ from __future__ import unicode_literals
 
 OUTPUT_PATH = '../'
 
-AUTHOR = 'ihoromi4'
-SITENAME = 'ihoromi4 Blog'
+AUTHOR = 'Ihor Omelchenko'
+SITENAME = f'{AUTHOR} Blog'
 SITEDESCRIPTION = 'Description'
 SITEURL = ''  # 'https://ihoromi4.github.com'
-SITETITLE = 'ihoromi4'
-SITESUBTITLE = 'Python | Go | C++ | ML Developer'
+SITETITLE = f'{AUTHOR}'
+SITESUBTITLE = 'Python | C/C++ | Data Scientist | ML Developer'
 THEME = './themes/Flex'
 
-PLUGIN_PATHS = ['./extentions']
-PLUGINS = ['pelican_javascript']
-
 PATH = 'content'
+ARTICLE_PATHS = ['blog']
+#ARTICLE_SAVE_AS = '{date:%Y}/{slug}.html'
+#ARTICLE_URL = '{date:%Y}/{slug}.html'
+
+STATIC_PATHS = [
+    'data',
+]
+
+MATH_JAX = dict(
+    tex_extensions=['boldsymbol.js'],
+)
 
 TIMEZONE = 'Europe/Kiev'
 
@@ -29,7 +37,9 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('About', 'https://ihoromi4.github.com/about.html'),)
+LINKS = (
+	#('About', 'https://ihoromi4.github.com/about.html'),
+)
 
 # Social widget
 SOCIAL = (('github', 'https://github.com/ihoromi4'),

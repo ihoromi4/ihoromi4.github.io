@@ -21,14 +21,13 @@
 
   ```bash
   cd src
-  pelican -r content
+  pelican --autoreload content
   ```
 
   ## Test Deploy
 
   ```bash
-  cd ..
-  python -m pelican.server
+  pelican --listen
   ```
 
   Open in browser [localhost:8000](http://localhost:8000)
@@ -40,3 +39,7 @@
   ```
   
   Commit changes and push.
+  
+  ## Status
+  
+  Status: draft | published
