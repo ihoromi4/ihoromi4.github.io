@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ihor Omelchenko Blog - Machine Learning</title><link href="https://ihoromi4.github.io/" rel="alternate"></link><link href="https://ihoromi4.github.io/feeds/machine-learning.atom.xml" rel="self"></link><id>https://ihoromi4.github.io/</id><updated>2021-05-18T09:20:00+03:00</updated><subtitle>Python | C/C++ | Data Scientist | ML Developer</subtitle><entry><title>Variational Autoencoder (VAE) Example using MNIST</title><link href="https://ihoromi4.github.io/variational-autoencoder-vae-example-using-mnist-ru.html" rel="alternate"></link><published>2021-05-18T09:20:00+03:00</published><updated>2021-05-18T09:20:00+03:00</updated><author><name>Ihor Omelchenko</name></author><id>tag:ihoromi4.github.io,2021-05-18:/variational-autoencoder-vae-example-using-mnist-ru.html</id><summary type="html">&lt;p&gt;Interactive examples of Variational Autoencoder.&lt;/p&gt;</summary><content type="html">&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"&gt;&lt;/script&gt;
+
+&lt;script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"&gt;&lt;/script&gt;
+
+&lt;style&gt;
+div.example { width: 100%; height: auto; text-align: center;}
+img#map { width: 100%; float: left; display:inline-block; }
+img#map:after { content: ""; display: block; padding-bottom: 100% }
+canvas#viewport { width: 100%; image-rendering: crisp-edges; float: right }
+canvas#draw { width: 100%; float: left; image-rendering: crisp-edges; }
+canvas#restore { width: 100%; image-rendering: crisp-edges; float: right }
+div.vertical { border-left: 6px solid #0000; height: 100%; position:absolute; left: 50%; }
+button {
+  background-color: #D9411E;
+  padding: .6em .6em;
+  font-size: .8em;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+div.border {
+  display:inline-block;
+  background-color: #000;
+  border-radius: 10px;
+  border: 4px solid #D9411E;
+  padding: 5px;
+  width: 100%;
+}
+table.example {
+    text-align: center;
+    vertical-align: middle;
+}
+th, td {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle !important;
+}
+&lt;/style&gt;
+
+&lt;p&gt;Вариационный Автоенкодер (англ. Variational Autoencoder - VAE) это тип нейронной сети, который используется для нахождения способа эффективного кодирования через обучение без учителя.&lt;/p&gt;
+&lt;p&gt;Вариационный автокодировщик состоит из двух нейросетей. Первая сжимает входные данные, переводя их в векторное пространство более низкой размерности чем входные данные. Вторая, векторы из этого пространства, восстанавливает в данные подобные исходным. Цель обучения - наилучшим способом сжимать и восстанавливать данные.&lt;/p&gt;
+&lt;p&gt;Автокодировщики обладают двумя интересными для нас свойствами:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Способность сжимать входные данные (снижение размерности данных)&lt;/li&gt;
+&lt;li&gt;Возможность генерировать новые данные из сжатого представления (генеративная модель)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Рассмотрим подробнее каждое свойство.&lt;/p&gt;
+&lt;h1&gt;Данные&lt;/h1&gt;
+&lt;p&gt;В данной статье используется, ставший уже классическим, датасет MNIST. Он состоит из 70 000 изображений рукописных цифр (от 0 до 9). Каждое изображение имеет разрешение 28 х 28 пикселей. Цвета представленны оттенками серого. Датасет содержит порядка 7000 примеров написания каждой цифры. Нетрудно посчитать, что каждое изображение состоит из 784 пикселей, каждый представлен одним числом. И следовательно информация о том, какая из 10 цифр нарисована на изображении содержится в этих 784 числах. Очевидно, для того чтобы закодировать информацию о числе нужно намного меньше данных.&lt;/p&gt;
+&lt;h1&gt;Сжатие данных&lt;/h1&gt;
+&lt;p&gt;Модель случайного скрытого вектора выглядит как &lt;span class="math"&gt;\(N(z|\mu(X, \theta), \sigma(X, \theta))\)&lt;/span&gt;. Где &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; и &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; это функции с обучаемыми параметрами &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, в нашем случае это нейросети.&lt;/p&gt;
+&lt;p&gt;В вариационном автокодировщике скрытый вектор моделируется с помощью многомерного нормального распределения &lt;span class="math"&gt;\(N(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)&lt;/span&gt;. Предполагается, что компоненты скрытого вектора &lt;span class="math"&gt;\(\boldsymbol{z}\)&lt;/span&gt; статистически независимы, следовательно ковариационная матрица &lt;span class="math"&gt;\(\boldsymbol{\Sigma}\)&lt;/span&gt; принимает диагональный вид. В процессе обучения автокодировщик оценивает плотности вероятностей для компонентов скрытого вектора. Другими словами праметры многомерного нормального распределения как функции фходных данных моделируются нейронной сетью. При сжатии на выходе мы получим параметры многомерного нормального распределения - математическое ожидание &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; и дисперсию &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;У интерпретации многомерного скрытого вектора есть большие трудности. В процессе обучения каждое измерение скрытого вектора начинает отвечать за случайный аспект написания цифры. Это может быть наклон, толщина линии, пропорции, или что-то другое. Это можно определить только экспериментально на уже обученной сети.&lt;/p&gt;
+&lt;p&gt;Второе свойство - автокодировщик может генерировать новые примеры данных по заданному сжатому представлению. Таким образом мы можем создать примеры похожие на данные, на которых обучался автокодировщик.&lt;/p&gt;
+&lt;p&gt;В следующем примере вы можете сами нарисовать число и увидеть как нейросеть сжимает изображение и восстанавливает его.&lt;/p&gt;
+&lt;div class="example" id="example_2"&gt;
+    &lt;table class="example" style="width: 100%; height: auto; table-layout: fixed;"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;text&gt;Draw image here&lt;/text&gt;&lt;/th&gt;
+            &lt;th&gt;&lt;text&gt;Code&lt;/text&gt;&lt;/th&gt;
+            &lt;th&gt;&lt;text&gt;Restored image&lt;/text&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;div class="border"&gt;
+                    &lt;canvas id="draw"&gt;&lt;/canvas&gt;
+                &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;span id="encoder_out" style="font-weight: bold;"&gt;(0.0, 0.0)&lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;div class="border"&gt;
+                    &lt;canvas id="restore"&gt;&lt;/canvas&gt;
+                &lt;/div&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;button type="button" id="draw_clear" onclick="drawClear()"&gt;Clear&lt;/button&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Генерация данных&lt;/h1&gt;
+&lt;p&gt;Используя энкодер мы получили отображение цифр из валидационного набора на пространство кодов.
+Каждая точка изображения соответствует двумерному коду.
+В следующем примере мы увидим как скрытое двумерное векторное пространство связано с изображением цифры.&lt;/p&gt;
+&lt;div class="example" id="example_1"&gt;
+    &lt;table class="example" style="width: 100%; height: auto; table-layout: fixed;"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;text&gt;Map&lt;/text&gt;&lt;/th&gt;
+            &lt;th&gt;Code&lt;/td&gt;
+            &lt;th&gt;&lt;text&gt;Generated image&lt;/text&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;div class="border"&gt;
+                    &lt;img src="data/vae/map.png" alt="map" id="map"&gt;
+                &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;span id="ex1_code" style="font-weight: bold;"&gt;(0.0, 0.0)&lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;div class="border"&gt;
+                    &lt;canvas class="canvas elevation" id="viewport"&gt;&lt;/canvas&gt;
+                &lt;/div&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;script src="data/vae/script_example_1.js"&gt;&lt;/script&gt;
+
+&lt;script src="data/vae/script_example_2.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','boldsymbol.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Machine Learning"></category><category term="AI"></category><category term="ML"></category><category term="VAE"></category><category term="example"></category></entry></feed>

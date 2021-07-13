@@ -43,24 +43,25 @@ function drawMove(pt)
 	ctx.stroke();
 }
 
-function pointerDown(e)
+function pointerDown(evt)
 {
-	var pt = e.touches ? e.touches[0] : e;
+	var pt = evt.touches ? evt.touches[0] : evt;
 	drawStart(relPos(pt));
 }
 
-function pointerMove(e)
+function pointerMove(evt)
 {
-	var pt = e.touches ? e.touches[0] : e;
+	var pt = evt.touches ? evt.touches[0] : evt;
 	drawMove(relPos(pt));
 	
 	rezip();
+	evt.preventDefault();
 }
 
 function draw(method, move, stop)
 {
-	return e => {
-		if (method == "add") pointerDown(e);
+	return evt => {
+		if (method == "add") pointerDown(evt);
 		canvas[method + "EventListener"](move, pointerMove);
 		canvas[method + "EventListener"](stop, ctx.closePath);
 	};
@@ -103,5 +104,5 @@ canvas.addEventListener("mouseup", draw("remove", "mousemove", "mouseup"));
 canvas.addEventListener("mouseout", draw("remove", "mousemove", "mouseup"));
 
 // touch events
-canvas.addEventListener("touchstart", draw("add","touchmove","touchend"));
-canvas.addEventListener("touchend", draw("remove","touchmove","touchend"));
+canvas.addEventListener("touchstart", draw("add", "touchmove", "touchend"));
+canvas.addEventListener("touchend", draw("remove", "touchmove", "touchend"));
