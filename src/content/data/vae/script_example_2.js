@@ -2,6 +2,13 @@
 
 var p_encoder_out = document.getElementById("encoder_out");
 
+var ns = 10;
+var slider = document.getElementsByClassName("slider")[0];
+for (let i = 1; i < ns; i++) {
+	slider.after(slider.cloneNode(true));
+}
+var ex2_elements_sliders = document.getElementsByClassName("slider");
+
 var canvas = document.getElementById("draw");
 var ctx = canvas.getContext("2d");
 canvas.width = 28;
@@ -76,14 +83,16 @@ async function rezip()
 	}
 	var inputTensor = new onnx.Tensor(arr, 'float32', [1, canvas.width * canvas.height]);
 	
-	var outputMap = await sess2.run([inputTensor]);
+	var outputMap = await ex2_encoder_sess.run([inputTensor]);
 	var outputTensor = outputMap.values().next().value;
 	
-	// debug
-	console.log(outputTensor);
+	// visualisation
 	p_encoder_out.innerHTML = "(" + Array.from(outputTensor.data).map(c=>c.toFixed(2)).join(", ") + ")";
+	for (let i = 0; i < ex2_elements_sliders.length; i++) {
+		ex2_elements_sliders[i].value = outputTensor.data[i];
+	}
 	
-	runNN(outputTensor.data, ctx_restore);
+	restoreImage(ex2_decoder_sess, outputTensor.data, ctx_restore);
 	//drawTensor(inputTensor, ctx_restore);
 }
 
@@ -93,10 +102,40 @@ function drawClear()
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx_restore.fillRect(0, 0, canvas_restore.width, canvas_restore.height);
 	p_encoder_out.innerHTML = "(0.0, 0.0)";
+	for (let i = 0; i < ex2_elements_sliders.length; i++) {
+		ex2_elements_sliders[i].value = 0;
+	}
 }
 
-const sess2 = new onnx.InferenceSession();
-sess2.loadModel('./data/vae/encoder.onnx');
+function onSliderInput(id)
+{
+	var n = ex2_elements_sliders.length;
+	var code = new Float32Array(n);
+	for (let i = 0; i < ex2_elements_sliders.length; i++) {
+		code[i] = ex2_elements_sliders[i].value;
+	}
+	p_encoder_out.innerHTML = "(" + Array.from(code).map(c=>c.toFixed(2)).join(", ") + ")";
+	restoreImage(ex2_decoder_sess, code, ctx_restore);
+}
+
+async function restoreImage(sess, input, context)
+{
+    var inputTensor = new onnx.Tensor(input, 'float32', [1, input.length]);
+    var outputMap = await sess.run([inputTensor]);
+    var outputTensor = outputMap.values().next().value;
+    
+    drawTensor(outputTensor, context);
+}
+
+for (let i = 0; i < ex2_elements_sliders.length; i++) {
+	ex2_elements_sliders[i].oninput = () => onSliderInput(i);
+}
+
+const ex2_encoder_sess = new onnx.InferenceSession();
+ex2_encoder_sess.loadModel('./data/vae/encoder_10.onnx');
+
+const ex2_decoder_sess = new onnx.InferenceSession();
+ex2_decoder_sess.loadModel('./data/vae/decoder_10.onnx');
 
 // mouse events
 canvas.addEventListener("mousedown", draw("add", "mousemove", "mouseup"));
