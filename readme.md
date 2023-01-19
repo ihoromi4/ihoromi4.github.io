@@ -1,45 +1,53 @@
-  # ihoromi4 blog
+# ihoromi4 blog
 
-  ## Dependencies
+## Dependencies
 
-  ### Build
+### Build
 
-  * python >= 3.5
-  * pelican >= 3.7.1
+* python >= 3.8
+* pelican >= 4.8
 
-  ### Deploy
+### Deploy
 
-  * Proxy server for *index.html*
+* Proxy server for *index.html*
 
-  ## Install Pelican (static site builder)
+## Install requirements
 
-  ```bash
-  pip3 install pelican
-  ```
+It is recommended to use virtual environment:
 
-  ## Build
+```bash
+python -m venv venv
+```
 
-  ```bash
-  cd src
-  pelican --autoreload content
-  ```
+Install requirements:
 
-  ## Test Deploy
+```bash
+pip install -r requirements.txt
+```
 
-  ```bash
-  pelican --listen
-  ```
+## Build
 
-  Open in browser [localhost:8000](http://localhost:8000)
-  
-  ## Publish Deploy
-  
-  ```bash
-  pelican -s publishconf.py content
-  ```
-  
-  Commit changes and push.
-  
-  ## Status
-  
-  Status: draft | published
+```bash
+cd src
+python -m pelican --autoreload
+```
+
+## Test Deploy
+
+```bash
+python -m pelican --listen
+```
+
+Open in browser [localhost:8000](http://localhost:8000)
+
+## Publish Deploy
+
+```bash
+python -m pelican -s publishconf.py content
+```
+
+Commit changes and push.
+
+## Status
+
+Status: draft | published
