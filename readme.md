@@ -1,4 +1,6 @@
-# ihoromi4 blog
+# Source code for ihoromi4 blog
+
+You can visit the blog via [this link](https://ihoromi4.github.io) (hosted on Github Pages).
 
 ## Dependencies
 
@@ -13,7 +15,7 @@
 
 ## Install requirements
 
-It is recommended to use virtual environment:
+It is recommended to use a virtual environment:
 
 ```bash
 python -m venv venv
