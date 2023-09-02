@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ihor Omelchenko Blog - Reinforcement Learning</title><link href="https://ihoromi4.github.io/" rel="alternate"></link><link href="https://ihoromi4.github.io/feeds/reinforcement-learning.atom.xml" rel="self"></link><id>https://ihoromi4.github.io/</id><updated>2023-09-02T14:00:00+03:00</updated><subtitle>Python | C/C++ | Data Scientist | ML Developer</subtitle><entry><title>Про навчання з підкріпленням</title><link href="https://ihoromi4.github.io/pro-navchannia-z-pidkriplenniam-ua.html" rel="alternate"></link><published>2023-09-02T14:00:00+03:00</published><updated>2023-09-02T14:00:00+03:00</updated><author><name>Ihor Omelchenko</name></author><id>tag:ihoromi4.github.io,2023-09-02:/pro-navchannia-z-pidkriplenniam-ua.html</id><summary type="html">&lt;p&gt;Навчання з підкріпленням - це напрямок штучного інтелекту, який спрямований на розвиток алгоритмів та моделей, здатних самостійно вчитися та приймати рішення на основі взаємодії з навколишнім середовищем. &lt;/p&gt;
+&lt;p&gt;Основна ідея полягає в тому, щоб створити агентів, які можуть взаємодіяти з навколишнім світом, отримувати відгуки у вигляді підкріплення або покарання і вдосконалювати свої …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Навчання з підкріпленням - це напрямок штучного інтелекту, який спрямований на розвиток алгоритмів та моделей, здатних самостійно вчитися та приймати рішення на основі взаємодії з навколишнім середовищем. &lt;/p&gt;
+&lt;p&gt;Основна ідея полягає в тому, щоб створити агентів, які можуть взаємодіяти з навколишнім світом, отримувати відгуки у вигляді підкріплення або покарання і вдосконалювати свої дії, максимізуючи нагороду. Навчання з підкріпленням є ключовим компонентом для створення інтелігентних систем, які можуть досягати високих результатів у завданнях без заздалегідь заданого алгоритму.&lt;/p&gt;
+&lt;h1&gt;Три види навчання&lt;/h1&gt;
+&lt;p&gt;В момент написання цієї статті домінуючим підходом у штучному інтелекті є методи, що вчаться. Їх окреми яскравий представник - глибокі нейронні мережі. Такі алгоритми здатні знаходити алгоритм за набором прикладів.&lt;/p&gt;
+&lt;p&gt;Перша нейромережева модель природнього нейрону з'явилася у далекому 1942 році[1].  &lt;/p&gt;
+&lt;p&gt;Традиційно методи машинного навчання поділяють на три великі групи:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Навчання з учителем (англ. Supervised Learning, SL)&lt;/li&gt;
+&lt;li&gt;Навчання без вчителя (англ. Unsupervised Learning, UL)&lt;/li&gt;
+&lt;li&gt;Навчання з підкріпленням (англ. Reinforcement Learning, RL)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Навчання з учителем об'єднує підходи основна ціль яких - узагальнення навчальних даних. &lt;/p&gt;
+&lt;p&gt;Методи "навчання без вчителя" вирішують проблему стискання даних шляхом знаходження внутрішньої структури.&lt;/p&gt;
+&lt;p&gt;Навчання з підкріпленням вивчає як агенту навчитися діяти у середовищі оптимально.&lt;/p&gt;
+&lt;h1&gt;Коротка історія навчання з підкріпленням&lt;/h1&gt;
+&lt;p&gt;Навчання з підкріпленням виникло з двох паралельних віток досліджень[2], які розвивалися майже незалежно.&lt;/p&gt;
+&lt;p&gt;Перша виникла з досліджень поведінки тварин та вивчала навчання шляхом спроб та помилок.&lt;/p&gt;
+&lt;p&gt;Друга вітка походила з теорії оптимального управління. Термін "оптимальне управління" почав вживатися у 1950-х. Цей підхід працював з функціями цінності, динамічним програмуванням та, більшою мірою, не допускав навчання.&lt;/p&gt;
+&lt;p&gt;Також можна виділити третій підхід, заснований на часових різницях (англ. temporal-difference).&lt;/p&gt;
+&lt;p&gt;Сучасне навчання з підкіпленням виникло в 1980-х шляхом об'єднаня трьох вище згаданих віток в одну.&lt;/p&gt;
+&lt;h1&gt;Особливості навчання з підкріпленням&lt;/h1&gt;
+&lt;p&gt;На відміну від інших підходів, навчання з підкріпленням працює з послідовним прийняттям рішень, не потребує заздалегіть відомої моделі середовища.
+Навчання з підкріпленням породжує проблеми які не можна знайти у навчанні з вчителем чи навчанні без вчителя. Коли ми починаємо вирішувати задачу навчання з підкріпленням, ми не маємо готового датасету для навчання, натомість агент збирає дані в процесі взаємодії з середовищем. Агент сам збирає датасет для навчання.&lt;/p&gt;
+&lt;h1&gt;Формалізм навчання з підкріпленням&lt;/h1&gt;
+&lt;p&gt;Головним формалізмом в навчанні з підкріпленням є &lt;a href="https://en.wikipedia.org/wiki/Markov_decision_process"&gt;Марківський процес прийняття рішень&lt;/a&gt;. Це загальний спосіб описати стохастичний процес з дискретним часом у якому дії агента впливають на динаміку середовища.&lt;/p&gt;
+&lt;p&gt;Головні складові навчання з підкріпленням:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Середовище (англ. Environment): все, окрім агента&lt;/li&gt;
+&lt;li&gt;Агент (англ. Agent): сутність, що здатна спостерігати середовище, та обирати дії.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для кожної системи вибір межі розділу між середовищем та агентом дещо довільний. Наприклад, у ситуації водій-автомобіль-шосе, можливо декілька представлень. Перший варіант: водій це агент, який управляє автомобілем. Інший - автомобіль з водієм це агент, який їде по шосе.&lt;/p&gt;
+&lt;p&gt;Основні поняття MDP:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Стан &lt;span class="math"&gt;\(s_t\)&lt;/span&gt;: вкожен момент часу &lt;span class="math"&gt;\(t\)&lt;/span&gt; середовище перебуває у певному стані &lt;span class="math"&gt;\(s_t\)&lt;/span&gt;. Конкретне представлення стану зележить від середовища. Зазвичай це вектор, або матриця.&lt;/li&gt;
+&lt;li&gt;Дія &lt;span class="math"&gt;\(a_t\)&lt;/span&gt;: в кожен момент часу &lt;span class="math"&gt;\(t\)&lt;/span&gt; агент може обрати одну можливу дію з набору, який визначає середовище.&lt;/li&gt;
+&lt;li&gt;Нагорода &lt;span class="math"&gt;\(r_t\)&lt;/span&gt;: після виконання дії агент отримує від середовища нагороду. Особливість навчання з підкіпленням в тому, що ця нагорода не обов'язково пов'язана з попередньою дією, вона може бути наслідком будь-якої дії що була обрана в минулому.&lt;/li&gt;
+&lt;li&gt;Функція нагороди &lt;span class="math"&gt;\(R(s_t, s_{t+1})\)&lt;/span&gt;: функція, яка визначає яку саме чисельну нагороду отримає агент перейшовши з стану &lt;span class="math"&gt;\(s_t\)&lt;/span&gt; до стану &lt;span class="math"&gt;\(s_{t+1}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Функція переходу &lt;span class="math"&gt;\(P(s_t, a_t, s_{t+1})\)&lt;/span&gt;: це розподіл імовірностей переходів між станами при обраних діях.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Формально цей формалізм застосовний лише для опису систем, для яких виконується марківське припущення, іншими словами середовище має &lt;a href="https://uk.wikipedia.org/wiki/%D0%9C%D0%B0%D1%80%D0%BA%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B0_%D0%B2%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%B2%D1%96%D1%81%D1%82%D1%8C"&gt;марковську властивість&lt;/a&gt;. Це можна пояснити як відсутність пам'яті у стохастичному процесі. Іншими словами, все що потрібно знати агенту для оптимальної поведінки міститься в останному стані середовища &lt;span class="math"&gt;\(s_t\)&lt;/span&gt;, а всі попередні стани не потрібні. Формально це можна записати як незалежність умовного статистичного розподілу від попередніх станів, кріп останнього:
+&lt;/p&gt;
+&lt;div class="math"&gt;$$P(s_{t+1}| s_{t}) = P(s_{t+1} | s_t, s_{t-1}, ..., s_2, s_1)$$&lt;/div&gt;
+&lt;h1&gt;Джерела&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;McCulloch, W. S., &amp;amp; Pitts, W. (1943). A logical calculus of the ideas immanent in nervous activity. The bulletin of mathematical biophysics, 5, 115-133.&lt;/li&gt;
+&lt;li&gt;Sutton, R. S., &amp;amp; Barto, A. G. (2018). Reinforcement learning: An introduction. MIT press.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','boldsymbol.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Reinforcement Learning"></category><category term="AI"></category><category term="ML"></category><category term="RL"></category></entry></feed>

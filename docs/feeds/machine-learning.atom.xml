@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Ihor Omelchenko Blog - Machine Learning</title><link href="https://ihoromi4.github.io/" rel="alternate"></link><link href="https://ihoromi4.github.io/feeds/machine-learning.atom.xml" rel="self"></link><id>https://ihoromi4.github.io/</id><updated>2021-05-18T09:20:00+03:00</updated><subtitle>Python | C/C++ | Data Scientist | ML Developer</subtitle><entry><title>Variational Autoencoder (VAE) Example using MNIST</title><link href="https://ihoromi4.github.io/variational-autoencoder-vae-example-using-mnist-ru.html" rel="alternate"></link><published>2021-05-18T09:20:00+03:00</published><updated>2021-05-18T09:20:00+03:00</updated><author><name>Ihor Omelchenko</name></author><id>tag:ihoromi4.github.io,2021-05-18:/variational-autoencoder-vae-example-using-mnist-ru.html</id><summary type="html">&lt;p&gt;Interactive examples of Variational Autoencoder.&lt;/p&gt;</summary><content type="html">&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"&gt;&lt;/script&gt;
-
 &lt;script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"&gt;&lt;/script&gt;
-
 &lt;style&gt;
 div.example { width: 100%; height: auto; text-align: center;}
 img#map { width: 100%; float: left; display:inline-block; }
@@ -169,7 +167,6 @@ th, td {
 &lt;li&gt;&lt;a href="https://arxiv.org/abs/1312.6114"&gt;Auto-Encoding Variational Bayes [Diederik P Kingma, Max Welling]&lt;/a&gt; исходная научная работа, в которой впервые был представлен вариационный автокодировщик.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;script src="data/vae/script_example_1.js"&gt;&lt;/script&gt;
-
 &lt;script src="data/vae/script_example_2.js"&gt;&lt;/script&gt;
 
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
