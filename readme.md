@@ -7,7 +7,8 @@ You can visit the blog via [this link](https://ihoromi4.github.io) (hosted on Gi
 ### Build
 
 * python >= 3.8
-* pelican >= 4.8
+* pelican == 4.8
+* pelican-render-math == 1.0.3
 
 ### Deploy
 
@@ -19,6 +20,7 @@ It is recommended to use a virtual environment:
 
 ```bash
 python -m venv venv
+. venv/bin/activate
 ```
 
 Install requirements:
@@ -37,6 +39,7 @@ python -m pelican --autoreload
 ## Test Deploy
 
 ```bash
+cd src
 python -m pelican --listen
 ```
 
